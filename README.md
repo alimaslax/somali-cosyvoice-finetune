@@ -142,7 +142,7 @@ Plotly.js 3.1.0 is bundled locally under its MIT license; no CDN is needed.
 In the repository's **Settings → Pages**, choose **GitHub Actions** as the source.
 The workflow in `.github/workflows/pages.yml` builds and deploys pushes to the active
 `cosy-voice` branch; it can also be run manually. The resulting
-URL for the existing remote is `https://alimaslax.github.io/somali-duplex-plotly/`.
+URL for the existing remote is `https://alimaslax.github.io/somali-cosyvoice-finetune/`.
 Only `dist/` is uploaded, including the samples displayed on the dashboard.
 
 ## Edit the dashboard
