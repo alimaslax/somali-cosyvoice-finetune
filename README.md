@@ -5,7 +5,7 @@ to build a model that learns Somali pronunciation, phrasing, prosody, and
 natural speaker characteristics from authorised native Somali recordings paired
 with accurate Somali transcripts.
 
-This repository is the Plotly Dash interface for exploring that work. The
+This repository is a static HTML dashboard for exploring that work. Its charts use bundled Plotly.js and its samples use native HTML audio players. No application server, Docker runtime, or API is needed. The
 dashboard is intended to make the corpus and training journey legible: what
 audio has been collected, where it is in the processing pipeline, how much
 verified material is available, and how model experiments perform.
@@ -100,7 +100,7 @@ quality.
 
 ## Dashboard scope
 
-The Dash application is the reporting layer for Somali Duplex. As the data
+The static dashboard is the reporting layer for Somali Duplex. As the data
 products are connected, it can present collection and processing status,
 duration and speaker coverage, transcription-review progress, dataset-version
 comparisons, and evaluation results. It is deliberately separate from the
@@ -109,7 +109,7 @@ than modifying raw recordings or checkpoints.
 
 ### Omar dataset analysis
 
-The `/dataset` page reports a complete scan of the processed Omar transcript
+The corpus section reports a complete scan of the processed Omar transcript
 tree: corpus hours, timed-word coverage, WPM distribution, low/medium/high pace
 bands, pause statistics, source-level variation, technical FLAC compliance,
 and the punctuation-normalization audit. Rebuild its checked analysis artifacts
@@ -124,18 +124,41 @@ The analyzer writes one row per WPM-eligible clip to `data/omar_wpm.csv` and an
 aggregate report to `data/omar_dataset_summary.json`. Audio-event-only JSON
 records remain part of total corpus hours but are excluded from pace labeling.
 
-## Run locally
-
-Activate the project environment and start Dash from this repository:
+## Static build and preview
 
 ```bash
-conda activate "Somali Duplex"
-cd /Users/mali/ai/somali-duplex-plotly
-python main.py
+python3 scripts/build_static.py
+python3 -m http.server 8080 --directory dist
 ```
 
-Dash prints the local address when it starts. In development, it normally
-serves on `http://127.0.0.1:8050`.
+Open `http://localhost:8080`. The build uses only Python's standard library and
+copies the HTML, CSS, JavaScript, chart data, and nine WAV samples into `dist/`.
+Python serves only this optional local preview; GitHub Pages serves the published
+files. All asset URLs are relative, so project URLs work under a repository path.
+Plotly.js 3.1.0 is bundled locally under its MIT license; no CDN is needed.
+
+## Publish on GitHub Pages
+
+In the repository's **Settings → Pages**, choose **GitHub Actions** as the source.
+The workflow in `.github/workflows/pages.yml` builds and deploys pushes to `main`
+or the existing `cosy-voice` branch; it can also be run manually. The resulting
+URL for the existing remote is `https://alimaslax.github.io/somali-duplex-plotly/`.
+Only `dist/` is uploaded, including the samples displayed on the dashboard.
+
+## Edit the dashboard
+
+- `index.html`: content and audio comparison table.
+- `assets/dashboard.css`: dark report layout and responsive styles.
+- `assets/dashboard.js`: lazy chart rendering and single-sample playback.
+- `assets/charts.json`: precomputed Plotly figures containing the original analysis.
+- `assets/audio/`: the nine reference samples.
+
+Normal edits need only the static build. For a fresh analysis report, the optional
+`scripts/refresh_static_report.py` exporter uses the preserved `research_page.py`
+layout and checked `data/` artifacts; it requires the legacy Dash, pandas, and
+Plotly packages. It overwrites the generated HTML, chart JSON, CSS, and bundled
+Plotly.js, so apply content/style customizations afterward. The old Dash pages
+and Docker files are retained as migration references and are not deployed.
 
 ## Related workspaces
 
