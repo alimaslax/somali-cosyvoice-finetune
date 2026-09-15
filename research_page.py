@@ -177,7 +177,7 @@ def layout() -> html.Main:
         ])], className="paper-toc"),
         html.Section([
             html.H2("1. Reference audio"),
-            html.P("Each row is one Somali prompt rendered at the available pace conditions. Audio files are placed by their recorded filename suffix: slow, medium, or fast."),
+            html.P("The prompts below are random Somali excerpts held out from the training data. They are included only as reference examples to show how well the model handles unseen text across the available slow, medium, and fast pace conditions."),
             html.Div(html.Table([
                 html.Thead(html.Tr([html.Th("Text"), html.Th("Slow"), html.Th("Medium"), html.Th("Fast")])),
                 html.Tbody([
