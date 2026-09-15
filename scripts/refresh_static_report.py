@@ -37,7 +37,7 @@ body=render(page.layout())
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="CosyVoice 3 Somali adaptation: corpus preparation, model fine-tuning, and frozen-component strategy.">
-<title>CosyVoice 3 Somali Adaptation</title>
+<title>Somali Voice Training</title>
 <link rel="icon" href="assets/favicon.ico">
 <link rel="stylesheet" href="assets/dashboard.css">
 <script defer src="assets/plotly.min.js"></script>

@@ -73,19 +73,52 @@ def duration_scatter() -> go.Figure:
     return figure_style(figure, 390)
 
 
-def source_boxplot() -> go.Figure:
+def source_range_plot() -> go.Figure:
     figure = go.Figure()
-    for index, item in enumerate(SUMMARY["top_recordings_by_hours"][:10]):
+    recordings = []
+    minimums = []
+    first_quartiles = []
+    medians = []
+    third_quartiles = []
+    maximums = []
+    for item in SUMMARY["top_recordings_by_hours"][:10]:
         recording = item["recording"]
         values = CLIPS.loc[CLIPS["recording"] == recording, "wpm"]
-        name = recording[:42] + ("…" if len(recording) > 42 else "")
-        figure.add_trace(go.Box(
-            x=values, name=name, orientation="h", boxpoints=False,
-            line={"color": "#a9b5bf" if index % 2 else "#8ebfc8", "width": 1.2},
-            fillcolor="rgba(180, 195, 205, .08)", hovertemplate="%{x:.1f} WPM<extra>%{y}</extra>",
-        ))
+        recordings.append(recording[:42] + ("…" if len(recording) > 42 else ""))
+        minimums.append(values.min())
+        first_quartiles.append(values.quantile(.25))
+        medians.append(values.median())
+        third_quartiles.append(values.quantile(.75))
+        maximums.append(values.max())
+
+    def range_coordinates(starts, ends):
+        x, y = [], []
+        for name, start, end in zip(recordings, starts, ends):
+            x.extend([start, end, None])
+            y.extend([name, name, None])
+        return x, y
+
+    full_x, full_y = range_coordinates(minimums, maximums)
+    iqr_x, iqr_y = range_coordinates(first_quartiles, third_quartiles)
+    figure.add_trace(go.Scatter(
+        x=full_x, y=full_y, mode="lines", hoverinfo="skip",
+        line={"color": "#65717a", "width": 2}, name="Observed range",
+    ))
+    figure.add_trace(go.Scatter(
+        x=iqr_x, y=iqr_y, mode="lines", hoverinfo="skip",
+        line={"color": "#8ebfc8", "width": 10}, name="Middle 50%",
+    ))
+    figure.add_trace(go.Scatter(
+        x=medians, y=recordings, mode="markers", hoverinfo="skip",
+        marker={"color": "#f0f1f3", "size": 8, "line": {"color": "#16171a", "width": 2}},
+        name="Median",
+    ))
     figure.update_xaxes(title="Words per minute", range=[40, 220])
     figure.update_yaxes(autorange="reversed", tickfont={"size": 10})
+    figure.update_layout(
+        showlegend=True,
+        legend={"orientation": "h", "y": 1.12, "x": 0},
+    )
     return figure_style(figure, 500)
 
 
@@ -128,7 +161,7 @@ def layout() -> html.Main:
     punctuation = SUMMARY["punctuation_normalization"]
     return html.Main(html.Article([
         html.Header([
-            html.H1("CosyVoice 3 Somali Adaptation"),
+            html.H1("Somali Voice Training"),
             html.P([
                 html.Strong("Abstract. "),
                 f"This report presents the data and adaptation strategy used to specialize CosyVoice 3 for Somali speech synthesis. "
@@ -187,7 +220,12 @@ def layout() -> html.Main:
             figure_block("Figure 2.", "Clip duration and speaking rate.",
                          f"{corpus['clips_20_to_30_percentage']:.2f}% of clips are in the 20–30 second target window. The plot exposes unusually short, long, or dense records for inspection.", duration_scatter()),
             html.P("Speaking rate varies substantially across the largest recording folders. Corpus-level thresholds are useful descriptive references, but each clip is retained with its timing record so pace labels can be reviewed in context."),
-            figure_block("Figure 3.", "Within-source variation in speaking pace.", "Each box summarises the WPM distribution for one of the ten largest recording folders.", source_boxplot()),
+            figure_block(
+                "Figure 3.",
+                "Within-source variation in speaking pace.",
+                "For each of the ten largest recording folders, the thin line shows the observed WPM range, the thick segment shows the middle 50%, and the white point marks the median.",
+                source_range_plot(),
+            ),
         ], id="corpus"),
         html.Section([
             html.H2("3. Data processing and cleaning"),
