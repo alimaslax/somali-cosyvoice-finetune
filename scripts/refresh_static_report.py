@@ -36,8 +36,8 @@ body=render(page.layout())
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Somali Duplex: reference audio, speech pace, and Omar corpus analysis for Somali text-to-speech.">
-<title>Somali Duplex</title>
+<meta name="description" content="CosyVoice 3 Somali adaptation: corpus preparation, model fine-tuning, and frozen-component strategy.">
+<title>CosyVoice 3 Somali Adaptation</title>
 <link rel="icon" href="assets/favicon.ico">
 <link rel="stylesheet" href="assets/dashboard.css">
 <script defer src="assets/plotly.min.js"></script>

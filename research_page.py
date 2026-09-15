@@ -25,7 +25,7 @@ def figure_style(figure: go.Figure, height: int) -> go.Figure:
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         font={"family": "Arial, sans-serif", "color": MUTED, "size": 12},
-        hoverlabel={"bgcolor": "#25262a", "font_color": INK, "bordercolor": "#565963"},
+        hovermode=False,
         showlegend=False,
     )
     figure.update_xaxes(gridcolor=GRID, zeroline=False, linecolor=GRID)
@@ -95,7 +95,10 @@ def figure_block(number: str, title: str, text: str, figure: go.Figure) -> html.
             html.H3([html.Span(number, className="figure-number"), title]),
             html.P(text),
         ]),
-        dcc.Graph(figure=figure, config={"displayModeBar": False, "responsive": True}),
+        dcc.Graph(
+            figure=figure,
+            config={"displayModeBar": False, "responsive": True, "staticPlot": True},
+        ),
     ], className="paper-figure")
 
 
@@ -125,11 +128,13 @@ def layout() -> html.Main:
     punctuation = SUMMARY["punctuation_normalization"]
     return html.Main(html.Article([
         html.Header([
-            html.H1("Somali Duplex"),
+            html.H1("CosyVoice 3 Somali Adaptation"),
             html.P([
                 html.Strong("Abstract. "),
-                f"This report documents a complete scan of {corpus['json_files_discovered']:,} transcript records from the Omar corpus. "
-                "It treats speech pace, timing, technical audio compliance, and transcript-derived punctuation as inspectable evidence for Somali text-to-speech training."
+                f"This report presents the data and adaptation strategy used to specialize CosyVoice 3 for Somali speech synthesis. "
+                f"The training corpus was assembled from a fully audited collection of {corpus['json_files_discovered']:,} Omar transcript records, with aligned audio evaluated for timing, speaking rate, signal compliance, and transcript integrity before inclusion. "
+                "Fine-tuning updates the LLM and Flow modules so the model can learn Somali pronunciation, phrasing, prosody, and acoustic realization; the pretrained HiFT/HiFi-GAN vocoder remains frozen to preserve stable 24 kHz waveform generation. "
+                "This separation concentrates learning capacity on language- and acoustics-specific adaptation while retaining a controlled synthesis backend for reproducible evaluation."
             ], className="paper-abstract"),
         ], className="paper-header"),
         html.Nav([html.Strong("Contents"), html.Ul([

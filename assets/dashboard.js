@@ -25,7 +25,7 @@ async function loadCharts() {
         try {
           entry.target.replaceChildren();
           await Plotly.newPlot(entry.target, figure.data, figure.layout, {
-            displayModeBar: false, responsive: true
+            displayModeBar: false, responsive: true, staticPlot: true
           });
         } catch (error) {
           entry.target.textContent = 'This chart could not be displayed. Please reload the page.';
