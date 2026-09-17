@@ -171,13 +171,13 @@ def layout() -> html.Main:
             ], className="paper-abstract"),
         ], className="paper-header"),
         html.Nav([html.Strong("Contents"), html.Ul([
-            html.Li(html.A("Reference audio", href="#samples")),
+            html.Li(html.A("Generated audio", href="#samples")),
             html.Li(html.A("Corpus and pace", href="#corpus")),
             html.Li(html.A("Data processing and cleaning", href="#processing")),
         ])], className="paper-toc"),
         html.Section([
-            html.H2("1. Reference audio"),
-            html.P("The prompts below are random Somali excerpts held out from the training data. They are included only as reference examples to show how well the model handles unseen text across the available slow, medium, and fast pace conditions."),
+            html.H2("1. Generated audio"),
+            html.P("These samples are pure model generations from random Somali excerpts drawn from news and books. The excerpts are not part of the training set or validation set, and no reference audio was supplied or followed during synthesis. Each text is generated independently at the available slow, medium, and fast pace conditions."),
             html.Div(html.Table([
                 html.Thead(html.Tr([html.Th("Text"), html.Th("Slow"), html.Th("Medium"), html.Th("Fast")])),
                 html.Tbody([

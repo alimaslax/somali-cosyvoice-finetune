@@ -151,7 +151,7 @@ Only `dist/` is uploaded, including the samples displayed on the dashboard.
 - `assets/dashboard.css`: dark report layout and responsive styles.
 - `assets/dashboard.js`: lazy chart rendering and single-sample playback.
 - `assets/charts.json`: precomputed Plotly figures containing the original analysis.
-- `assets/audio/`: the nine reference samples.
+- `assets/audio/`: nine pure-generation samples at slow, medium, and fast pace conditions.
 
 Normal edits need only the static build. For a fresh analysis report, the optional
 `scripts/refresh_static_report.py` exporter uses the preserved `research_page.py`
