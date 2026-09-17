@@ -153,10 +153,10 @@ def pace_sample_row(
 ) -> html.Tr:
     return html.Tr([
         html.Th(html.Q(text), scope="row", className="pace-sample-text"),
+        audio_cell(chatgpt, "ChatGPT Voice sample"),
         audio_cell(slow, "Slow sample"),
         audio_cell(medium, "Medium sample"),
         audio_cell(fast, "Fast sample"),
-        audio_cell(chatgpt, "ChatGPT Voice sample"),
     ])
 
 
@@ -188,10 +188,10 @@ def layout() -> html.Main:
             html.Div(html.Table([
                 html.Thead(html.Tr([
                     html.Th("Text"),
+                    html.Th("ChatGPT Voice"),
                     html.Th("Slow"),
                     html.Th("Medium"),
                     html.Th("Fast"),
-                    html.Th("ChatGPT Voice"),
                 ])),
                 html.Tbody([
                     pace_sample_row(
