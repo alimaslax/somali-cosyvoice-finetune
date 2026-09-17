@@ -144,12 +144,19 @@ def audio_cell(audio_file: str | None, label: str) -> html.Td:
     )
 
 
-def pace_sample_row(text: str, slow: str | None, medium: str | None, fast: str | None) -> html.Tr:
+def pace_sample_row(
+    text: str,
+    slow: str | None,
+    medium: str | None,
+    fast: str | None,
+    chatgpt: str | None,
+) -> html.Tr:
     return html.Tr([
         html.Th(html.Q(text), scope="row", className="pace-sample-text"),
         audio_cell(slow, "Slow sample"),
         audio_cell(medium, "Medium sample"),
         audio_cell(fast, "Fast sample"),
+        audio_cell(chatgpt, "ChatGPT Voice sample"),
     ])
 
 
@@ -177,27 +184,36 @@ def layout() -> html.Main:
         ])], className="paper-toc"),
         html.Section([
             html.H2("1. Generated audio"),
-            html.P("These samples are pure model generations from random Somali excerpts drawn from news and books. The excerpts are not part of the training set or validation set, and no reference audio was supplied or followed during synthesis. Each text is generated independently at the available slow, medium, and fast pace conditions."),
+            html.P("These samples are pure model generations from random Somali excerpts drawn from news and books. The excerpts are not part of the training set or validation set, and no reference audio was supplied or followed during synthesis. Each text is generated independently at the available slow, medium, and fast pace conditions, with a ChatGPT Voice generation included for comparison."),
             html.Div(html.Table([
-                html.Thead(html.Tr([html.Th("Text"), html.Th("Slow"), html.Th("Medium"), html.Th("Fast")])),
+                html.Thead(html.Tr([
+                    html.Th("Text"),
+                    html.Th("Slow"),
+                    html.Th("Medium"),
+                    html.Th("Fast"),
+                    html.Th("ChatGPT Voice"),
+                ])),
                 html.Tbody([
                     pace_sample_row(
                         "Aanadii Negeeye waa buug waddo cusub u furaya bandhigga xikmadda iyo suugaanta soomaalida oo ilaa hadda si wayn la isugu soo tebin jirey tix ahaan.",
      "audio/omar-adanni-slow.wav",
                         "audio/omar-adanni-medium.wav",
                         "audio/omar-adanni-fast.wav",
+                        "audio/chatgpt-adanni.wav",
                     ),
                     pace_sample_row(
                         "Waxay ahayd wax yar ka hor salaaddii Maqrib, markii Faarax gurigooda ay gabadh dhallinyaro ah oo wejigeeda qarinaysa albaabka soo garaacday.",
                         "audio/omar-garaacday-slow.wav",
                         "audio/omar-garaacday-medium.wav",
                         "audio/omar-garaacday-fast.wav",
+                        "audio/chatgpt-garaacday.wav",
                     ),
                     pace_sample_row(
                         "Hooyadii Dhool wax badan ma ay sugin ninkii wadku ka qaaday nin kale oo illawsiiya oo dhinaca gogosheeda bannaanaaday u buuxiya.",
                         "audio/omar-hooyadii-slow.wav",
                         "audio/omar-hooyadii-medium.wav",
                         "audio/omar-hooyadii-fast.wav",
+                        "audio/chatgpt-hooyadii.wav",
                     ),
                 ]),
             ]), className="audio-table-wrap"),

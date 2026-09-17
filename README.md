@@ -132,7 +132,7 @@ python3 -m http.server 8080 --directory dist
 ```
 
 Open `http://localhost:8080`. The build uses only Python's standard library and
-copies the HTML, CSS, JavaScript, chart data, and nine WAV samples into `dist/`.
+copies the HTML, CSS, JavaScript, chart data, and twelve WAV samples into `dist/`.
 Python serves only this optional local preview; GitHub Pages serves the published
 files. All asset URLs are relative, so project URLs work under a repository path.
 Plotly.js 3.1.0 is bundled locally under its MIT license; no CDN is needed.
@@ -151,7 +151,7 @@ Only `dist/` is uploaded, including the samples displayed on the dashboard.
 - `assets/dashboard.css`: dark report layout and responsive styles.
 - `assets/dashboard.js`: lazy chart rendering and single-sample playback.
 - `assets/charts.json`: precomputed Plotly figures containing the original analysis.
-- `assets/audio/`: nine pure-generation samples at slow, medium, and fast pace conditions.
+- `assets/audio/`: twelve generated samples, including slow, medium, fast, and ChatGPT Voice comparisons.
 
 Normal edits need only the static build. For a fresh analysis report, the optional
 `scripts/refresh_static_report.py` exporter uses the preserved `research_page.py`
